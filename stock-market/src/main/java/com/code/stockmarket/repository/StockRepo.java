@@ -2,7 +2,6 @@ package com.code.stockmarket.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -18,5 +17,5 @@ public interface StockRepo extends MongoRepository<Stock, String> {
     void deleteAllByCompanyCode(String companyCode);
 
     @Query(value = "{companyCode:?0}", sort= "{createdOn:-1}")
-    Optional<Stock> findByCompanyCodeSortByCreatedOn(String companyCode);
+    List<Stock> findByCompanyCodeSortByCreatedOn(String companyCode);
 }

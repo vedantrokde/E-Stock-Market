@@ -29,7 +29,7 @@ public class CompanyService implements ICompanyService {
     @Override
     public CompanyDetailsDto fetchCompany(String companyCode) {
         Optional<Company> checkCompany = companyRepo.findByCode(companyCode);
-        Optional<Stock> checkLts = stockRepo.findByCompanyCodeSortByCreatedOn(companyCode);
+        List<Stock> checkLts = stockRepo.findByCompanyCodeSortByCreatedOn(companyCode);
 
         if (!checkCompany.isPresent()) {
             return null;
@@ -38,8 +38,9 @@ public class CompanyService implements ICompanyService {
         Company company = checkCompany.get();
 
         BigDecimal lts = new BigDecimal(0);
-        if (checkLts.isPresent()) {
-            lts = checkLts.get().getPrice();
+
+        if(checkLts.size() > 0) {
+            lts = checkLts.get(0).getPrice();
         }
 
         CompanyDetailsDto companyDetailsDto = new CompanyDetailsDto(
